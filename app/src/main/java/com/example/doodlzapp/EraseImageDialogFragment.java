@@ -61,6 +61,4 @@ public class EraseImageDialogFragment extends DialogFragment {
             fragment.setDialogOnScreen(false);
     }
 
-    public void show(FragmentManager fragmentManager, String erase_dialog) {
-    }
 }
