@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager;
 
 public class EraseImageDialogFragment extends DialogFragment {
 
-    // create an AlertDialog and return it
     @Override
     public Dialog onCreateDialog(Bundle bundle) {
         AlertDialog.Builder builder =
@@ -25,14 +24,14 @@ public class EraseImageDialogFragment extends DialogFragment {
         builder.setPositiveButton(R.string.button_erase,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        getDoodleFragment().getDoodleView().clear(); // clear image
+                        getDoodleFragment().getDoodleView().clear();
                     }
                 }
         );
 
         // add cancel Button
         builder.setNegativeButton(android.R.string.cancel, null);
-        return builder.create(); // return dialog
+        return builder.create();
     }
 
     // gets a reference to the MainActivityFragment

@@ -6,10 +6,7 @@
     android:layout_height="match_parent"
     android:columnCount="1"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:padding="@dimen/activity_padding"
     android:useDefaultMargins="true"
     tools:context=".LineWidthDialogFragment">
 
@@ -25,5 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="fill_horizontal"
-        android:max="50" />
+        android:max="50"
+        android:progressTint="@color/colorAccent"
+        android:thumbTint="@color/colorPrimary" />
 </GridLayout>

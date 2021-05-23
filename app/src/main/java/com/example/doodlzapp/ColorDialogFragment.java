@@ -66,11 +66,9 @@ public class ColorDialogFragment extends DialogFragment {
                     }
                 }
         );
-
         return builder.create(); // return dialog
     }
 
-    
     // gets a reference to the MainActivityFragment
     private MainActivityFragment getDoodleFragment() {
         return (MainActivityFragment) getFragmentManager().findFragmentById(
@@ -105,7 +103,7 @@ public class ColorDialogFragment extends DialogFragment {
                 public void onProgressChanged(SeekBar seekBar, int progress,
                                               boolean fromUser) {
 
-                    if (fromUser) // user, not program, changed SeekBar progress
+                    if (fromUser)
                         color = Color.argb(alphaSeekBar.getProgress(),
                                 redSeekBar.getProgress(), greenSeekBar.getProgress(),
                                 blueSeekBar.getProgress());
@@ -113,9 +111,11 @@ public class ColorDialogFragment extends DialogFragment {
                 }
 
                 @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {} // required
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                } // required
 
                 @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {} // required
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                } // required
             };
 }

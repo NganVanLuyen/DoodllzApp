@@ -16,22 +16,20 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-        // determine screen size
-        int screenSize =
-                getResources().getConfiguration().screenLayout &
-                        Configuration.SCREENLAYOUT_SIZE_MASK;
-
-        // use landscape for extra large tablets; otherwise, use portrait
-        if (screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE)
-            setRequestedOrientation(
-                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        else
-            setRequestedOrientation(
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        // determine screen size
+//        int screenSize =
+//                getResources().getConfiguration().screenLayout &
+//                        Configuration.SCREENLAYOUT_SIZE_MASK;
+//
+//        // use landscape for extra large tablets; otherwise, use portrait
+//        if (screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE)
+//            setRequestedOrientation(
+//                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+//        else
+//            setRequestedOrientation(
+//                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 }

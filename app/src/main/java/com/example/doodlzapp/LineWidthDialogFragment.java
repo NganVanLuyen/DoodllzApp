@@ -12,10 +12,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
+
 import androidx.fragment.app.DialogFragment;
 
 
-// class for the Select Line Width dialog
 public class LineWidthDialogFragment extends DialogFragment {
     private ImageView widthImageView;
 
@@ -28,7 +28,7 @@ public class LineWidthDialogFragment extends DialogFragment {
         View lineWidthDialogView =
                 getActivity().getLayoutInflater().inflate(
                         R.layout.fragment_line_width, null);
-        builder.setView(lineWidthDialogView); // add GUI to dialog
+        builder.setView(lineWidthDialogView);
 
         // set the AlertDialog's message
         builder.setTitle(R.string.title_line_width_dialog);
@@ -53,7 +53,7 @@ public class LineWidthDialogFragment extends DialogFragment {
                 }
         );
 
-        return builder.create(); // return dialog
+        return builder.create();
     }
 
     // return a reference to the MainActivityFragment
@@ -87,19 +87,17 @@ public class LineWidthDialogFragment extends DialogFragment {
             new OnSeekBarChangeListener() {
                 final Bitmap bitmap = Bitmap.createBitmap(
                         400, 100, Bitmap.Config.ARGB_8888);
-                final Canvas canvas = new Canvas(bitmap); // draws into bitmap
+                final Canvas canvas = new Canvas(bitmap);
 
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress,
                                               boolean fromUser) {
-                    // configure a Paint object for the current SeekBar value
                     Paint p = new Paint();
                     p.setColor(
                             getDoodleFragment().getDoodleView().getDrawingColor());
                     p.setStrokeCap(Paint.Cap.ROUND);
                     p.setStrokeWidth(progress);
 
-                    // erase the bitmap and redraw the line
                     bitmap.eraseColor(
                             getResources().getColor(android.R.color.transparent,
                                     getContext().getTheme()));

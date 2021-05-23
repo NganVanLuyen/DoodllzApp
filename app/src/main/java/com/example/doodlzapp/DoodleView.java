@@ -20,13 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DoodleView extends View {
-    // used to determine whether user moved a finger enough to draw again
-    private static final float TOUCH_TOLERANCE = 10;
 
-    private Bitmap bitmap; // drawing area for displaying or saving
-    private Canvas bitmapCanvas; // used to to draw on the bitmap
-    private final Paint paintScreen; // used to draw bitmap onto screen
-    private final Paint paintLine; // used to draw lines onto bitmap
+    private static final float TOUCH_TOLERANCE = 10;
+    private Bitmap bitmap;
+    private Canvas bitmapCanvas;
+    private final Paint paintScreen;
+    private final Paint paintLine;
 
     // Maps of current Paths being drawn and Points in those Paths
     private final Map<Integer, Path> pathMap = new HashMap<>();
@@ -34,16 +33,16 @@ public class DoodleView extends View {
 
     // DoodleView constructor initializes the DoodleView
     public DoodleView(Context context, AttributeSet attrs) {
-        super(context, attrs); // pass context to View's constructor
-        paintScreen = new Paint(); // used to display bitmap onto screen
+        super(context, attrs);
+        paintScreen = new Paint();
 
         // set the initial display settings for the painted line
         paintLine = new Paint();
-        paintLine.setAntiAlias(true); // smooth edges of drawn line
-        paintLine.setColor(Color.BLACK); // default color is black
-        paintLine.setStyle(Paint.Style.STROKE); // solid line
-        paintLine.setStrokeWidth(5); // set the default line width
-        paintLine.setStrokeCap(Paint.Cap.ROUND); // rounded line ends
+        paintLine.setAntiAlias(true);
+        paintLine.setColor(Color.BLACK);
+        paintLine.setStyle(Paint.Style.STROKE);
+        paintLine.setStrokeWidth(10);
+        paintLine.setStrokeCap(Paint.Cap.ROUND);
     }
 
     // creates Bitmap and Canvas based on View's size
@@ -52,15 +51,15 @@ public class DoodleView extends View {
         bitmap = Bitmap.createBitmap(getWidth(), getHeight(),
                 Bitmap.Config.ARGB_8888);
         bitmapCanvas = new Canvas(bitmap);
-        bitmap.eraseColor(Color.WHITE); // erase the Bitmap with white
+        bitmap.eraseColor(Color.WHITE);
     }
 
     // clear the painting
     public void clear() {
-        pathMap.clear(); // remove all paths
-        previousPointMap.clear(); // remove all previous points
-        bitmap.eraseColor(Color.WHITE); // clear the bitmap
-        invalidate(); // refresh the screen
+        pathMap.clear();
+        previousPointMap.clear();
+        bitmap.eraseColor(Color.WHITE);
+        invalidate();
     }
 
     // set the painted line's color
@@ -88,17 +87,15 @@ public class DoodleView extends View {
     protected void onDraw(Canvas canvas) {
         // draw the background screen
         canvas.drawBitmap(bitmap, 0, 0, paintScreen);
-
-        // for each path currently being drawn
         for (Integer key : pathMap.keySet())
-            canvas.drawPath(pathMap.get(key), paintLine); // draw line
+            canvas.drawPath(pathMap.get(key), paintLine);
     }
 
     // handle touch event
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        int action = event.getActionMasked(); // event type
-        int actionIndex = event.getActionIndex(); // pointer (i.e., finger)
+        int action = event.getActionMasked();
+        int actionIndex = event.getActionIndex();
 
         // determine whether touch started, ended or is moving
         if (action == MotionEvent.ACTION_DOWN ||
@@ -118,19 +115,19 @@ public class DoodleView extends View {
 
     // called when the user touches the screen
     private void touchStarted(float x, float y, int lineID) {
-        Path path; // used to store the path for the given touch id
-        Point point; // used to store the last point in path
+        Path path;
+        Point point;
 
         // if there is already a path for lineID
         if (pathMap.containsKey(lineID)) {
-            path = pathMap.get(lineID); // get the Path
-            path.reset(); // resets the Path because a new touch has started
-            point = previousPointMap.get(lineID); // get Path's last point
+            path = pathMap.get(lineID);
+            path.reset();
+            point = previousPointMap.get(lineID);
         } else {
             path = new Path();
-            pathMap.put(lineID, path); // add the Path to Map
-            point = new Point(); // create a new Point
-            previousPointMap.put(lineID, point); // add the Point to the Map
+            pathMap.put(lineID, path);
+            point = new Point();
+            previousPointMap.put(lineID, point);
         }
 
         // move to the coordinates of the touch
@@ -153,8 +150,7 @@ public class DoodleView extends View {
                 float newX = event.getX(pointerIndex);
                 float newY = event.getY(pointerIndex);
 
-                // get the path and previous point associated with
-                // this pointer
+                // get the path and previous point associated with this ponter
                 Path path = pathMap.get(pointerID);
                 Point point = previousPointMap.get(pointerID);
 
@@ -164,11 +160,9 @@ public class DoodleView extends View {
 
                 // if the distance is significant enough to matter
                 if (deltaX >= TOUCH_TOLERANCE || deltaY >= TOUCH_TOLERANCE) {
-                    // move the path to the new location
                     path.quadTo(point.x, point.y, (newX + point.x) / 2,
                             (newY + point.y) / 2);
 
-                    // store the new coordinates
                     point.x = (int) newX;
                     point.y = (int) newY;
                 }
@@ -178,23 +172,20 @@ public class DoodleView extends View {
 
     // called when the user finishes a touch
     private void touchEnded(int lineID) {
-        Path path = pathMap.get(lineID); // get the corresponding Path
-        bitmapCanvas.drawPath(path, paintLine); // draw to bitmapCanvas
-        path.reset(); // reset the Path
+        Path path = pathMap.get(lineID);
+        bitmapCanvas.drawPath(path, paintLine);
+        path.reset();
     }
 
     // save the current image to the Gallery
     public void saveImage() {
-        // use "Doodlz" followed by current time as the image name
-        final String name = "Doodlz" + System.currentTimeMillis() + ".jpg";
+        final String name = "Paint" + System.currentTimeMillis() + ".jpg";
 
-        // insert the image on the device
         String location = MediaStore.Images.Media.insertImage(
                 getContext().getContentResolver(), bitmap, name,
-                "Doodlz Drawing");
+                "Paint Drawing");
 
         if (location != null) {
-            // display a message indicating that the image was saved
             Toast message = Toast.makeText(getContext(),
                     R.string.message_saved,
                     Toast.LENGTH_SHORT);
@@ -202,7 +193,6 @@ public class DoodleView extends View {
                     message.getYOffset() / 2);
             message.show();
         } else {
-            // display a message indicating that there was an error saving
             Toast message = Toast.makeText(getContext(),
                     R.string.message_error_saving, Toast.LENGTH_SHORT);
             message.setGravity(Gravity.CENTER, message.getXOffset() / 2,
@@ -214,14 +204,11 @@ public class DoodleView extends View {
     // print the current image
     public void printImage() {
         if (PrintHelper.systemSupportsPrint()) {
-            // use Android Support Library's PrintHelper to print image
             PrintHelper printHelper = new PrintHelper(getContext());
 
-            // fit image in page bounds and print the image
             printHelper.setScaleMode(PrintHelper.SCALE_MODE_FIT);
             printHelper.printBitmap("Doodlz Image", bitmap);
         } else {
-            // display message indicating that system does not allow printing
             Toast message = Toast.makeText(getContext(),
                     R.string.message_error_printing, Toast.LENGTH_SHORT);
             message.setGravity(Gravity.CENTER, message.getXOffset() / 2,
